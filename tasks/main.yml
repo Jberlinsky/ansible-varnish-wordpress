@@ -9,6 +9,9 @@
 - name: Install Varnish 3.0
   apt: pkg=varnish state=latest update_cache=yes
 
+- name: Open access to the reverse proxy
+  ufw: rule=allow port={{ reverse_proxy_port }}
+
 - name: Create /etc/varnish/wordpress.vcl
   template: src=wordpress.vcl.j2 dest=/etc/varnish/wordpress.vcl backup=yes owner=root group=root mode=0644
   notify: Restart Varnish
